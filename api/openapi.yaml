@@ -1,0 +1,220 @@
+openapi: 3.0.3
+info:
+  title: GraphOne API
+  version: 1.0.0
+  description: >
+    The intelligence layer for the AI economy — companies, investors, funding
+    rounds, founders, products and news. Every response uses the envelope
+    `{ data, meta, error }`. Write operations require the `X-API-Key` header.
+servers:
+  - url: http://localhost:4000
+    description: Local
+  - url: https://graphone-api.onrender.com
+    description: Production (set after deploy)
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+  schemas:
+    Envelope:
+      type: object
+      properties:
+        data: {}
+        meta:
+          type: object
+          nullable: true
+        error:
+          type: object
+          nullable: true
+          properties:
+            code: { type: string }
+            message: { type: string }
+    Company:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+        slug: { type: string }
+        description: { type: string }
+        category: { type: string }
+        funding_total: { type: integer }
+        employee_count: { type: integer }
+        founded_year: { type: integer }
+        hq_city: { type: string }
+        hq_country: { type: string }
+        logo_url: { type: string }
+        website: { type: string }
+        stage: { type: string }
+        is_unicorn: { type: boolean }
+        valuation: { type: integer }
+        growth_score: { type: number }
+        last_scraped_at: { type: string, format: date-time }
+        data_confidence_score: { type: number }
+        trending_score: { type: number }
+        view_velocity: { type: number }
+    CreateCompany:
+      type: object
+      required: [name, description, category, website, founded_year, hq_city, hq_country]
+      properties:
+        name: { type: string }
+        description: { type: string }
+        category: { type: string }
+        website: { type: string, format: uri }
+        logo_url: { type: string, format: uri }
+        funding_total: { type: integer }
+        employee_count: { type: integer }
+        founded_year: { type: integer }
+        hq_city: { type: string }
+        hq_country: { type: string }
+        stage: { type: string }
+        is_unicorn: { type: boolean }
+        valuation: { type: integer }
+    ClaimCompany:
+      type: object
+      required: [claimant_name, claimant_email, role]
+      properties:
+        claimant_name: { type: string }
+        claimant_email: { type: string, format: email }
+        role: { type: string }
+        proof_url: { type: string, format: uri }
+        message: { type: string }
+paths:
+  /health:
+    get:
+      summary: Health check
+      responses: { '200': { description: OK } }
+  /stats:
+    get:
+      summary: Platform aggregate stats (cached 60s)
+      responses: { '200': { description: OK } }
+  /companies:
+    get:
+      summary: List companies
+      parameters:
+        - { in: query, name: category, schema: { type: string } }
+        - { in: query, name: stage, schema: { type: string } }
+        - { in: query, name: country, schema: { type: string } }
+        - { in: query, name: unicorn, schema: { type: boolean } }
+        - { in: query, name: sort, schema: { type: string, enum: [trending, funded, new] } }
+        - { in: query, name: q, schema: { type: string } }
+        - { in: query, name: limit, schema: { type: integer } }
+        - { in: query, name: cursor, schema: { type: string } }
+      responses: { '200': { description: OK } }
+    post:
+      summary: Create a company
+      security: [{ ApiKeyAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateCompany' }
+      responses:
+        '201': { description: Created }
+        '400': { description: Validation error }
+        '401': { description: Missing/invalid API key }
+  /companies/trending:
+    get:
+      summary: Top 10 companies by Trending Score (cached 30s)
+      responses: { '200': { description: OK } }
+  /companies/fastest-growing:
+    get:
+      summary: Top 10 companies by growth score (cached 30s)
+      responses: { '200': { description: OK } }
+  /companies/{slug}:
+    get:
+      summary: Company profile (founders, products, similar)
+      parameters: [{ in: path, name: slug, required: true, schema: { type: string } }]
+      responses: { '200': { description: OK }, '404': { description: Not found } }
+  /companies/{slug}/funding:
+    get:
+      summary: Funding rounds timeline (investors resolved)
+      parameters: [{ in: path, name: slug, required: true, schema: { type: string } }]
+      responses: { '200': { description: OK }, '404': { description: Not found } }
+  /companies/{slug}/products:
+    get:
+      summary: Company products
+      parameters: [{ in: path, name: slug, required: true, schema: { type: string } }]
+      responses: { '200': { description: OK }, '404': { description: Not found } }
+  /companies/{slug}/graph:
+    get:
+      summary: 1-hop ecosystem graph (investors, competitors, products)
+      parameters: [{ in: path, name: slug, required: true, schema: { type: string } }]
+      responses: { '200': { description: OK }, '404': { description: Not found } }
+  /companies/{slug}/claim:
+    post:
+      summary: Claim a company profile
+      security: [{ ApiKeyAuth: [] }]
+      parameters: [{ in: path, name: slug, required: true, schema: { type: string } }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ClaimCompany' }
+      responses:
+        '201': { description: Created }
+        '401': { description: Missing/invalid API key }
+        '404': { description: Not found }
+  /investors:
+    get:
+      summary: List investors
+      parameters:
+        - { in: query, name: type, schema: { type: string, enum: [VC, Angel, Corporate] } }
+        - { in: query, name: stage_focus, schema: { type: string } }
+        - { in: query, name: sector, schema: { type: string } }
+      responses: { '200': { description: OK } }
+  /investors/most-active:
+    get:
+      summary: Most active investors by deal count (last 90 days, cached 30s)
+      responses: { '200': { description: OK } }
+  /investors/{slug}:
+    get:
+      summary: Investor profile + portfolio breakdown + recent investments
+      parameters: [{ in: path, name: slug, required: true, schema: { type: string } }]
+      responses: { '200': { description: OK }, '404': { description: Not found } }
+  /investors/{slug}/investments:
+    get:
+      summary: Paginated investment history
+      parameters: [{ in: path, name: slug, required: true, schema: { type: string } }]
+      responses: { '200': { description: OK }, '404': { description: Not found } }
+  /investors/{slug}/co-investors:
+    get:
+      summary: Most frequent syndication partners
+      parameters: [{ in: path, name: slug, required: true, schema: { type: string } }]
+      responses: { '200': { description: OK }, '404': { description: Not found } }
+  /products:
+    get:
+      summary: List products (category filter, sort popular/newest)
+      parameters:
+        - { in: query, name: category, schema: { type: string } }
+        - { in: query, name: sort, schema: { type: string, enum: [popular, newest] } }
+      responses: { '200': { description: OK } }
+  /products/{slug}:
+    get:
+      summary: Product detail
+      parameters: [{ in: path, name: slug, required: true, schema: { type: string } }]
+      responses: { '200': { description: OK }, '404': { description: Not found } }
+  /news:
+    get:
+      summary: Paginated news feed (tag filter)
+      parameters: [{ in: query, name: tag, schema: { type: string } }]
+      responses: { '200': { description: OK } }
+  /news/trending:
+    get:
+      summary: Most read news in the last 24h (cached 30s)
+      responses: { '200': { description: OK } }
+  /search:
+    get:
+      summary: Cross-entity search (companies, investors, founders, products)
+      parameters: [{ in: query, name: q, required: true, schema: { type: string } }]
+      responses: { '200': { description: OK }, '400': { description: Missing q } }
+  /feed:
+    get:
+      summary: Ranked activity feed (news + funding + new companies)
+      responses: { '200': { description: OK } }
+  /founders/{slug}:
+    get:
+      summary: Founder profile with linked company
+      parameters: [{ in: path, name: slug, required: true, schema: { type: string } }]
+      responses: { '200': { description: OK }, '404': { description: Not found } }

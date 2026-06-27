@@ -1,0 +1,91 @@
+{
+  "info": {
+    "name": "GraphOne API",
+    "description": "All GraphOne endpoints. Set {{baseUrl}} and {{apiKey}} in the collection variables.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:4000" },
+    { "key": "apiKey", "value": "graphone-dev-key" }
+  ],
+  "item": [
+    {
+      "name": "Meta",
+      "item": [
+        { "name": "Root / endpoint index", "request": { "method": "GET", "url": "{{baseUrl}}/" } },
+        { "name": "Health", "request": { "method": "GET", "url": "{{baseUrl}}/health" } },
+        { "name": "Stats (cached)", "request": { "method": "GET", "url": "{{baseUrl}}/stats" } }
+      ]
+    },
+    {
+      "name": "Companies",
+      "item": [
+        { "name": "List", "request": { "method": "GET", "url": "{{baseUrl}}/companies?sort=trending&limit=20" } },
+        { "name": "List by category + funded", "request": { "method": "GET", "url": "{{baseUrl}}/companies?category=AI Coding&sort=funded" } },
+        { "name": "Trending (cached)", "request": { "method": "GET", "url": "{{baseUrl}}/companies/trending" } },
+        { "name": "Fastest growing (cached)", "request": { "method": "GET", "url": "{{baseUrl}}/companies/fastest-growing" } },
+        { "name": "Detail", "request": { "method": "GET", "url": "{{baseUrl}}/companies/openai" } },
+        { "name": "Funding timeline", "request": { "method": "GET", "url": "{{baseUrl}}/companies/openai/funding" } },
+        { "name": "Products", "request": { "method": "GET", "url": "{{baseUrl}}/companies/openai/products" } },
+        { "name": "Ecosystem graph", "request": { "method": "GET", "url": "{{baseUrl}}/companies/openai/graph" } },
+        {
+          "name": "Create (X-API-Key)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-API-Key", "value": "{{apiKey}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Mercor\",\n  \"description\": \"AI hiring marketplace\",\n  \"category\": \"AI Agents\",\n  \"website\": \"https://mercor.com\",\n  \"founded_year\": 2023,\n  \"hq_city\": \"San Francisco\",\n  \"hq_country\": \"USA\",\n  \"stage\": \"Series A\"\n}"
+            },
+            "url": "{{baseUrl}}/companies"
+          }
+        },
+        {
+          "name": "Claim (X-API-Key)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-API-Key", "value": "{{apiKey}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"claimant_name\": \"Jane Doe\",\n  \"claimant_email\": \"jane@openai.com\",\n  \"role\": \"Head of Comms\",\n  \"proof_url\": \"https://openai.com/team\"\n}"
+            },
+            "url": "{{baseUrl}}/companies/openai/claim"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Investors",
+      "item": [
+        { "name": "List", "request": { "method": "GET", "url": "{{baseUrl}}/investors?type=VC" } },
+        { "name": "Most active (cached)", "request": { "method": "GET", "url": "{{baseUrl}}/investors/most-active" } },
+        { "name": "Detail + portfolio", "request": { "method": "GET", "url": "{{baseUrl}}/investors/sequoia-capital" } },
+        { "name": "Investments", "request": { "method": "GET", "url": "{{baseUrl}}/investors/sequoia-capital/investments" } },
+        { "name": "Co-investors", "request": { "method": "GET", "url": "{{baseUrl}}/investors/sequoia-capital/co-investors" } }
+      ]
+    },
+    {
+      "name": "Products & News",
+      "item": [
+        { "name": "Products list", "request": { "method": "GET", "url": "{{baseUrl}}/products?sort=popular" } },
+        { "name": "Product detail", "request": { "method": "GET", "url": "{{baseUrl}}/products/chatgpt" } },
+        { "name": "News feed", "request": { "method": "GET", "url": "{{baseUrl}}/news?tag=Funding" } },
+        { "name": "News trending (cached)", "request": { "method": "GET", "url": "{{baseUrl}}/news/trending" } }
+      ]
+    },
+    {
+      "name": "Utility",
+      "item": [
+        { "name": "Search", "request": { "method": "GET", "url": "{{baseUrl}}/search?q=cursor" } },
+        { "name": "Feed", "request": { "method": "GET", "url": "{{baseUrl}}/feed?limit=20" } },
+        { "name": "Founder", "request": { "method": "GET", "url": "{{baseUrl}}/founders/sam-altman" } }
+      ]
+    }
+  ]
+}
