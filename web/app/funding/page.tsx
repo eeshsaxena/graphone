@@ -1,5 +1,5 @@
 import { ArrowUpRight } from 'lucide-react';
-import Image from 'next/image';
+import Image from '@/components/SmartImage';
 import Link from 'next/link';
 import { companies } from '@/lib/data';
 import { money } from '@/lib/format';
@@ -41,7 +41,7 @@ export default function FundingPage() {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
         {biggest.map((b) => (
           <div key={b.name} className="card p-5 text-center">
-            <Image src={`https://logo.clearbit.com/${b.domain}`} alt="" width={40} height={40} className="mx-auto h-10 w-10 rounded-lg object-contain" />
+            <Image src={`https://unavatar.io/${b.domain}`} name={b.name} alt={b.name} width={40} height={40} className="mx-auto h-10 w-10 rounded-lg object-contain" />
             <p className="mt-3 text-2xl font-extrabold text-accent">{b.amount}</p>
             <p className="text-sm font-semibold">{b.name}</p>
             <p className="text-xs text-muted">{b.round}</p>

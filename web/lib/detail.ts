@@ -1,7 +1,7 @@
 // Deep profile data for the two flagship detail pages (Company = OpenAI,
 // Investor = Sequoia Capital), matching the reference screens section-by-section.
 
-const logo = (d: string) => `https://logo.clearbit.com/${d}`;
+const logo = (d: string) => `https://unavatar.io/${d}`;
 const face = (u: string) => `https://i.pravatar.cc/200?u=${u}`;
 
 // ===================== COMPANY DETAIL: OpenAI =====================

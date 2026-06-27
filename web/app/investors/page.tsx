@@ -1,5 +1,5 @@
 import { ArrowRight, Plus, Search } from 'lucide-react';
-import Image from 'next/image';
+import Image from '@/components/SmartImage';
 import Link from 'next/link';
 import { Icon } from '@/components/Icon';
 import { SectionHeader } from '@/components/ui';

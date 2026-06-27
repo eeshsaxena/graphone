@@ -1,13 +1,13 @@
 'use client';
 
 import { ArrowRight, Flame, Heart, MessageSquare, Search, Sparkles } from 'lucide-react';
-import Image from 'next/image';
+import Image from '@/components/SmartImage';
 import Link from 'next/link';
 import { useState } from 'react';
 import { companies } from '@/lib/data';
 import { compact } from '@/lib/format';
 
-const logo = (d: string) => `https://logo.clearbit.com/${d}`;
+const logo = (d: string) => `https://unavatar.io/${d}`;
 
 interface ProductRow {
   name: string;

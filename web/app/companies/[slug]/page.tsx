@@ -11,7 +11,7 @@ import {
   Users,
   Youtube,
 } from 'lucide-react';
-import Image from 'next/image';
+import Image from '@/components/SmartImage';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Donut } from '@/components/Donut';

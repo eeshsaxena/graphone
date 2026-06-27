@@ -1,9 +1,9 @@
 import { ExternalLink, MessageSquare } from 'lucide-react';
-import Image from 'next/image';
+import Image from '@/components/SmartImage';
 import { companies } from '@/lib/data';
 import { timeAgo } from '@/lib/format';
 
-const logo = (d: string) => `https://logo.clearbit.com/${d}`;
+const logo = (d: string) => `https://unavatar.io/${d}`;
 
 const news = [
   { title: 'OpenAI launches GPT-4o with multimodal capabilities and native reasoning', tag: 'AI Models', domain: 'openai.com', hours: 2, comments: 24 },

@@ -1,5 +1,5 @@
 import { ArrowRight, ChevronRight, Flame, Search, Sparkles, Star } from 'lucide-react';
-import Image from 'next/image';
+import Image from '@/components/SmartImage';
 import Link from 'next/link';
 import { HeroVisual } from '@/components/HeroVisual';
 import { Icon } from '@/components/Icon';

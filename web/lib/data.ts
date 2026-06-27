@@ -1,6 +1,6 @@
 import { Category, Company, Investor } from './types';
 
-const logo = (d: string) => `https://logo.clearbit.com/${d}`;
+const logo = (d: string) => `https://unavatar.io/${d}`;
 
 // ---------------------------------------------------------------------------
 // Companies — real AI companies powering every rail on the home page.

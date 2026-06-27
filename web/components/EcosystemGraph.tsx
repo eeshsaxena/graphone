@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import Image from 'next/image';
+import Image from '@/components/SmartImage';
 import { openaiGraph } from '@/lib/detail';
 
 // Radial 1-hop ecosystem graph (section 11 of the company detail reference).

@@ -44,9 +44,11 @@ swapping in a live fetch layer is a drop-in change.
 
 ## Notes
 
-- `next.config.js` sets `images.unoptimized` so external logos
-  (`logo.clearbit.com`, `i.pravatar.cc`) load directly in the browser and the
-  site degrades gracefully if a logo host is unreachable.
+- Logos/avatars render through `components/SmartImage.tsx`, a drop-in for
+  `next/image` that falls back to a branded **initials tile** if a remote image
+  fails (host down, rate-limited, unknown domain) — so the UI never shows an
+  empty/broken placeholder. Sources: `unavatar.io` (logos) and `i.pravatar.cc`
+  (people).
 - Brand tokens (accent red/pink, surfaces, shadows) live in `tailwind.config.ts`
   and `app/globals.css`.
 

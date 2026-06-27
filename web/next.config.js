@@ -7,7 +7,7 @@ const nextConfig = {
     // gracefully if a logo host is unreachable.
     unoptimized: true,
     remotePatterns: [
-      { protocol: 'https', hostname: 'logo.clearbit.com' },
+      { protocol: 'https', hostname: 'unavatar.io' },
       { protocol: 'https', hostname: 'i.pravatar.cc' },
     ],
   },
