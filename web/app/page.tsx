@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { HeroVisual } from '@/components/HeroVisual';
 import { Icon } from '@/components/Icon';
 import { LiveStatsBar } from '@/components/LiveStatsBar';
+import { NewsletterForm } from '@/components/NewsletterForm';
 import { SectionHeader } from '@/components/ui';
 import {
   categories,
@@ -78,16 +79,17 @@ export default async function HomePage() {
           <p className="mt-4 max-w-md text-[15px] text-muted">
             Explore AI startups, unicorns, frontier labs, and emerging companies shaping the future of artificial intelligence.
           </p>
-          <div className="mt-6 flex items-center gap-2 rounded-full border border-line bg-[var(--card)] p-1.5 shadow-card">
+          <form action="/search" className="mt-6 flex items-center gap-2 rounded-full border border-line bg-[var(--card)] p-1.5 shadow-card">
             <Search className="ml-3 h-4 w-4 text-ink-soft" />
             <input
+              name="q"
               placeholder="Search companies, categories, founders, investors…"
               className="h-10 flex-1 bg-transparent text-sm outline-none placeholder:text-ink-soft"
             />
-            <button className="grid h-10 w-10 place-items-center rounded-full bg-accent text-white transition hover:bg-accent-600">
+            <button type="submit" aria-label="Search" className="grid h-10 w-10 place-items-center rounded-full bg-accent text-white transition hover:bg-accent-600">
               <Search className="h-4 w-4" />
             </button>
-          </div>
+          </form>
           <div className="mt-4 flex flex-wrap gap-2">
             {heroPills.map((p) => (
               <span key={p} className="pill text-[12px]">
@@ -332,10 +334,7 @@ export default async function HomePage() {
               <p className="text-sm text-muted">Join thousands of builders, investors and researchers.</p>
             </div>
           </div>
-          <div className="flex w-full max-w-sm items-center gap-2">
-            <input placeholder="Enter your email" className="h-11 flex-1 rounded-full border border-line bg-[var(--card)] px-4 text-sm outline-none" />
-            <button className="btn-accent h-11 whitespace-nowrap">Get updates</button>
-          </div>
+          <NewsletterForm cta="Get updates" layout="row" />
         </div>
       </section>
     </div>

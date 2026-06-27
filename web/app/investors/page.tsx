@@ -20,11 +20,11 @@ export default function InvestorsPage() {
           <p className="mt-4 max-w-md text-[15px] text-muted">
             Find VCs, angels, operators, corporate funds and emerging managers backing the next generation of AI companies.
           </p>
-          <div className="mt-6 flex items-center gap-2 rounded-full border border-line bg-[var(--card)] p-1.5 shadow-card">
+          <form action="/search" className="mt-6 flex items-center gap-2 rounded-full border border-line bg-[var(--card)] p-1.5 shadow-card">
             <Search className="ml-3 h-4 w-4 text-ink-soft" />
-            <input placeholder="Search investors, funds, firms…" className="h-10 flex-1 bg-transparent text-sm outline-none placeholder:text-ink-soft" />
-            <button className="grid h-10 w-10 place-items-center rounded-full bg-accent text-white"><Search className="h-4 w-4" /></button>
-          </div>
+            <input name="q" placeholder="Search investors, funds, firms…" className="h-10 flex-1 bg-transparent text-sm outline-none placeholder:text-ink-soft" />
+            <button type="submit" aria-label="Search" className="grid h-10 w-10 place-items-center rounded-full bg-accent text-white"><Search className="h-4 w-4" /></button>
+          </form>
           <div className="mt-4 flex flex-wrap gap-2">
             <span className="text-xs text-muted">Popular searches</span>
             {popular.map((p) => (

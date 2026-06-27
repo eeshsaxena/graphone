@@ -69,7 +69,10 @@ export function CommandSearch({ open, onClose }: Props) {
                 ref={inputRef}
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
-                placeholder="Search companies, founders, investors…"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && q.trim()) go(`/search?q=${encodeURIComponent(q.trim())}`);
+                }}
+                placeholder="Search companies, founders, investors… (Enter for all results)"
                 className="flex-1 bg-transparent text-[15px] outline-none placeholder:text-ink-soft"
               />
               <button onClick={onClose} className="rounded-md p-1 text-ink-soft hover:bg-subtle">

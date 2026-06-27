@@ -1,4 +1,7 @@
+'use client';
+
 import { ExternalLink, MessageSquare } from 'lucide-react';
+import { useState } from 'react';
 import Image from '@/components/SmartImage';
 import { companies } from '@/lib/data';
 import { timeAgo } from '@/lib/format';
@@ -21,6 +24,8 @@ const news = [
 const tags = ['All News', 'AI Models', 'AI Tools', 'Funding', 'Research', 'Datasets'];
 
 export default function NewsPage() {
+  const [active, setActive] = useState('All News');
+  const filtered = active === 'All News' ? news : news.filter((n) => n.tag === active);
   return (
     <div className="page pb-12 pt-10">
       <span className="pill border-accent-200 bg-accent-50 text-accent-600"><span className="h-1.5 w-1.5 rounded-full bg-accent" /> LIVE AI INTELLIGENCE</span>
@@ -30,12 +35,21 @@ export default function NewsPage() {
       <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_300px]">
         <div>
           <div className="mb-4 flex flex-wrap gap-2 border-b border-line pb-3">
-            {tags.map((t, i) => (
-              <button key={t} className={`rounded-full px-3 py-1.5 text-sm font-medium ${i === 0 ? 'bg-accent text-white' : 'text-muted hover:bg-subtle'}`}>{t}</button>
+            {tags.map((t) => (
+              <button
+                key={t}
+                onClick={() => setActive(t)}
+                className={`rounded-full px-3 py-1.5 text-sm font-medium transition ${active === t ? 'bg-accent text-white' : 'text-muted hover:bg-subtle'}`}
+              >
+                {t}
+              </button>
             ))}
           </div>
+          {filtered.length === 0 && (
+            <p className="py-10 text-center text-sm text-muted">No {active} stories right now — check back soon.</p>
+          )}
           <ul className="divide-y divide-line">
-            {news.map((n, i) => (
+            {filtered.map((n, i) => (
               <li key={n.title} className="flex items-center gap-4 py-4">
                 <span className="w-6 text-center text-sm font-bold text-ink-soft">{i + 1}</span>
                 <Image src={logo(n.domain)} alt="" width={40} height={40} className="h-10 w-10 rounded-lg border border-line object-contain p-1" />

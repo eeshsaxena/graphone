@@ -38,7 +38,16 @@ export function generateStaticParams() {
   return companies.map((c) => ({ slug: c.slug }));
 }
 
-const tabs = ['Overview', 'Timeline', 'Funding', 'Ownership', 'Investors', 'Leadership', 'Products', 'More'];
+const tabs: { label: string; href: string }[] = [
+  { label: 'Overview', href: '#overview' },
+  { label: 'Timeline', href: '#timeline' },
+  { label: 'Funding', href: '#funding' },
+  { label: 'Ownership', href: '#ownership' },
+  { label: 'Investors', href: '#investors' },
+  { label: 'Leadership', href: '#leadership' },
+  { label: 'Products', href: '#products' },
+  { label: 'More', href: '#more' },
+];
 
 export default function CompanyDetail({ params }: { params: { slug: string } }) {
   const company = bySlug(params.slug);
@@ -57,7 +66,7 @@ export default function CompanyDetail({ params }: { params: { slug: string } }) 
       </div>
 
       {/* ===== HERO ===== */}
-      <section className="page mt-4">
+      <section id="overview" className="page mt-4 scroll-mt-32">
         <div className="card relative overflow-hidden p-6">
           <div className="pointer-events-none absolute right-0 top-0 h-full w-1/3 bg-gradient-to-l from-accent-50 to-transparent dark:from-accent-900/10" />
           <div className="relative flex flex-col gap-5 sm:flex-row">
@@ -95,9 +104,13 @@ export default function CompanyDetail({ params }: { params: { slug: string } }) 
       <div className="sticky top-16 z-20 mt-4 border-y border-line bg-[var(--bg)]/90 backdrop-blur">
         <nav className="page flex gap-6 overflow-x-auto py-3 text-sm no-scrollbar">
           {tabs.map((t, i) => (
-            <button key={t} className={`whitespace-nowrap font-medium transition ${i === 0 ? 'text-accent' : 'text-muted hover:text-accent'}`}>
-              {i + 1 <= 7 ? `${i + 1}. ` : ''}{t}
-            </button>
+            <a
+              key={t.label}
+              href={t.href}
+              className={`whitespace-nowrap font-medium transition ${i === 0 ? 'text-accent' : 'text-muted hover:text-accent'}`}
+            >
+              {i + 1 <= 7 ? `${i + 1}. ` : ''}{t.label}
+            </a>
           ))}
         </nav>
       </div>
@@ -130,7 +143,7 @@ function FlagshipBody() {
   return (
     <>
       {/* 2. Timeline */}
-      <section className="page mt-6">
+      <section id="timeline" className="page mt-6 scroll-mt-32">
         <Panel title="Timeline" n={2}>
           <div className="flex items-start justify-between gap-2 overflow-x-auto pb-2">
             {openaiTimeline.map((t) => (
@@ -145,7 +158,7 @@ function FlagshipBody() {
       </section>
 
       {/* 3 + 4. Funding + Ownership */}
-      <section className="page mt-6 grid gap-6 lg:grid-cols-2">
+      <section id="funding" className="page mt-6 grid scroll-mt-32 gap-6 lg:grid-cols-2">
         <Panel title="Funding Timeline" n={3}>
           <table className="w-full text-sm">
             <thead>
@@ -167,13 +180,15 @@ function FlagshipBody() {
           </table>
           <Link href="#" className="link-accent mt-3">View funding history <ArrowRight className="h-3.5 w-3.5" /></Link>
         </Panel>
-        <Panel title="Ownership" n={4}>
-          <Donut data={openaiOwnership} />
-        </Panel>
+        <div id="ownership" className="scroll-mt-32">
+          <Panel title="Ownership" n={4}>
+            <Donut data={openaiOwnership} />
+          </Panel>
+        </div>
       </section>
 
       {/* 5. Investors */}
-      <section className="page mt-6">
+      <section id="investors" className="page mt-6 scroll-mt-32">
         <Panel title="Investors" n={5}>
           <div className="grid gap-6 sm:grid-cols-3">
             {Object.entries(openaiInvestors).map(([group, list]) => (
@@ -194,7 +209,7 @@ function FlagshipBody() {
       </section>
 
       {/* 6. Founders */}
-      <section className="page mt-6">
+      <section id="leadership" className="page mt-6 scroll-mt-32">
         <Panel title="Founders & Leadership" n={6} cta="View all leadership">
           <div className="flex flex-wrap gap-6">
             {openaiFounders.map((f) => (
@@ -211,7 +226,7 @@ function FlagshipBody() {
       </section>
 
       {/* 7. Products */}
-      <section className="page mt-6">
+      <section id="products" className="page mt-6 scroll-mt-32">
         <Panel title="Products" n={7}>
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
             {openaiProducts.map((p) => (
@@ -226,7 +241,7 @@ function FlagshipBody() {
       </section>
 
       {/* 8 + 9. Acquisitions + Investments */}
-      <section className="page mt-6 grid gap-6 lg:grid-cols-2">
+      <section id="more" className="page mt-6 grid scroll-mt-32 gap-6 lg:grid-cols-2">
         <Panel title="Acquisitions" n={8} cta="View all acquisitions">
           <SimpleTable head={['Company', 'Date', 'Focus']} rows={openaiAcquisitions.map((a) => [a.company, a.date, a.focus])} logos={openaiAcquisitions.map((a) => a.logo)} />
         </Panel>

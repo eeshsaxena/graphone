@@ -4,6 +4,7 @@ import { ArrowRight, Flame, Heart, MessageSquare, Search, Sparkles } from 'lucid
 import Image from '@/components/SmartImage';
 import Link from 'next/link';
 import { useState } from 'react';
+import { NewsletterForm } from '@/components/NewsletterForm';
 import { companies } from '@/lib/data';
 import { compact } from '@/lib/format';
 
@@ -53,11 +54,11 @@ export default function ProductsPage() {
           The Global Intelligence <span className="text-accent">Layer for AI.</span>
         </h1>
         <p className="mt-3 max-w-lg text-[15px] text-muted">One graph connecting companies, founders, investors, products, funding and news.</p>
-        <div className="mt-6 flex max-w-2xl items-center gap-2 rounded-full border border-line bg-[var(--card)] p-1.5 shadow-card">
+        <form action="/search" className="mt-6 flex max-w-2xl items-center gap-2 rounded-full border border-line bg-[var(--card)] p-1.5 shadow-card">
           <Search className="ml-3 h-4 w-4 text-ink-soft" />
-          <input placeholder="Search startups, products, investors, jobs and news" className="h-10 flex-1 bg-transparent text-sm outline-none placeholder:text-ink-soft" />
-          <button className="grid h-10 w-10 place-items-center rounded-full bg-accent text-white"><ArrowRight className="h-4 w-4" /></button>
-        </div>
+          <input name="q" placeholder="Search startups, products, investors, jobs and news" className="h-10 flex-1 bg-transparent text-sm outline-none placeholder:text-ink-soft" />
+          <button type="submit" aria-label="Search" className="grid h-10 w-10 place-items-center rounded-full bg-accent text-white"><ArrowRight className="h-4 w-4" /></button>
+        </form>
       </section>
 
       <section className="page mt-10 grid gap-6 lg:grid-cols-[1fr_300px]">
@@ -160,8 +161,7 @@ export default function ProductsPage() {
           <div className="card bg-gradient-to-br from-accent-50 to-violet-50 p-5 dark:from-accent-900/20 dark:to-violet-900/20">
             <p className="text-sm font-bold">Stay ahead in AI</p>
             <p className="mt-1 text-xs text-muted">Get weekly updates on new tools and trends.</p>
-            <input placeholder="Enter your email" className="mt-3 h-10 w-full rounded-full border border-line bg-[var(--card)] px-4 text-sm outline-none" />
-            <button className="btn-accent mt-2 w-full">Subscribe</button>
+            <NewsletterForm cta="Subscribe" layout="stack" />
           </div>
         </aside>
       </section>
