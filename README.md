@@ -4,6 +4,27 @@ A full-stack build for the GraphOne 3-day engineering trial. One graph connectin
 AI **companies, founders, investors, products, funding rounds and news** — a
 "Bloomberg for AI startups."
 
+## 🔗 Live
+
+| | URL |
+|--|-----|
+| **Web app** (public, no login) | https://web-black-zeta-17.vercel.app |
+| **API** (public) | https://api-nine-wine-13.vercel.app |
+| **Repo** | https://github.com/eeshsaxena/graphone |
+
+Try it: [companies home](https://web-black-zeta-17.vercel.app) ·
+[OpenAI profile](https://web-black-zeta-17.vercel.app/companies/openai) ·
+[Sequoia profile](https://web-black-zeta-17.vercel.app/investors/sequoia-capital) ·
+[`/stats`](https://api-nine-wine-13.vercel.app/stats) ·
+[`/companies/trending`](https://api-nine-wine-13.vercel.app/companies/trending) ·
+[`/companies/openai/graph`](https://api-nine-wine-13.vercel.app/companies/openai/graph)
+
+> The API is deployed as a Vercel serverless function using the in-memory driver
+> (no external DB needed for the demo). For an always-on host with a real
+> Postgres, follow the Supabase + Render steps below.
+
+---
+
 This repo is a monorepo with two independently deployable apps:
 
 | App | Stack | What it is |
