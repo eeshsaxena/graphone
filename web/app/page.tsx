@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { HeroVisual } from '@/components/HeroVisual';
 import { Icon } from '@/components/Icon';
+import { LiveStatsBar } from '@/components/LiveStatsBar';
 import { SectionHeader } from '@/components/ui';
 import {
   categories,
@@ -12,6 +13,7 @@ import {
   unicorns,
 } from '@/lib/data';
 import { compact, money } from '@/lib/format';
+import { liveStats, liveTrending, LiveStats } from '@/lib/live';
 
 const heroPills = ['AI Agents', 'AI Coding', 'AI Search', 'AI Video', 'AI Voice', 'AI Infrastructure'];
 
@@ -31,8 +33,35 @@ const collections = [
   { title: 'Most Funded AI Startups', count: 184, g: 'from-[#3a1020] to-[#1d0810]' },
 ];
 
-export default function HomePage() {
-  const [t1, t2, t3, ...restTrending] = trending;
+// Fallback stats derived from the bundled mock data (used when the live API is
+// unreachable, so the page always renders).
+const mockStats: LiveStats = {
+  company_count: companies.length,
+  investor_count: 24,
+  founder_count: 20,
+  product_count: 24,
+  news_count: 120,
+  total_funding: companies.reduce((s, c) => s + c.funding_total, 0),
+  unicorn_count: companies.filter((c) => c.is_unicorn).length,
+};
+
+export default async function HomePage() {
+  // Live data from the deployed API, with graceful fallback to mock.
+  const [stats, liveTrend] = await Promise.all([liveStats(), liveTrending()]);
+
+  // When the API responds, drive the trending rail's order + scores from it,
+  // matched back onto the curated cards by slug (keeps gradients/taglines).
+  const trendingCards =
+    liveTrend && liveTrend.length > 0
+      ? liveTrend
+          .map((l) => {
+            const c = companies.find((x) => x.slug === l.slug);
+            return c ? { ...c, trending_score: l.trending_score, views_7d: l.views_7d } : null;
+          })
+          .filter((c): c is (typeof companies)[number] => c !== null)
+      : trending;
+
+  const [t1, t2, t3, ...restTrending] = trendingCards;
   const emerging = companies.filter((c) => ['Glean', 'Reka AI', 'Hugging Face', 'Mistral AI'].includes(c.name));
 
   return (
@@ -70,6 +99,11 @@ export default function HomePage() {
           </div>
         </div>
         <HeroVisual />
+      </section>
+
+      {/* ===== LIVE STATS (real data from the GraphOne API, mock fallback) ===== */}
+      <section className="page mt-8">
+        <LiveStatsBar stats={stats ?? mockStats} live={stats !== null} />
       </section>
 
       {/* ===== 1. TRENDING ===== */}
