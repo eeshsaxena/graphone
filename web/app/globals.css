@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #ffffff;
+  --bg-subtle: #f7f7f8;
+  --fg: #0b0b0f;
+  --fg-muted: #5b5f6b;
+  --line: #ececef;
+  --card: #ffffff;
+}
+
+.dark {
+  --bg: #0a0a0c;
+  --bg-subtle: #131318;
+  --fg: #f4f4f6;
+  --fg-muted: #9aa0ad;
+  --line: #24242b;
+  --card: #131318;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+@layer components {
+  .page {
+    @apply mx-auto w-full max-w-page px-5 sm:px-6;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    @apply rounded-2xl shadow-card;
+  }
+  .pill {
+    @apply inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-[13px] font-medium;
+    border-color: var(--line);
+    color: var(--fg-muted);
+  }
+  .section-num {
+    @apply flex h-5 w-5 items-center justify-center rounded-full bg-accent text-[11px] font-semibold text-white;
+  }
+  .btn-accent {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-accent px-4 py-2 text-sm font-semibold text-white transition hover:bg-accent-600;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold transition;
+    border-color: var(--line);
+    color: var(--fg);
+  }
+  .link-accent {
+    @apply inline-flex items-center gap-1 text-sm font-semibold text-accent transition hover:gap-1.5;
+  }
+}
+
+/* thin scrollbars for horizontal rails */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.text-muted {
+  color: var(--fg-muted);
+}
+.border-line {
+  border-color: var(--line);
+}
+.bg-subtle {
+  background: var(--bg-subtle);
+}
