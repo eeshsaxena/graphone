@@ -1,0 +1,5 @@
+{
+  "version": 2,
+  "buildCommand": "echo no build step for serverless",
+  "routes": [{ "src": "/(.*)", "dest": "/api" }]
+}
