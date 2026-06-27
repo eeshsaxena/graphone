@@ -21,7 +21,7 @@ const slug = (s: string) =>
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/(^-|-$)/g, '');
 
-const logo = (domain: string) => `https://logo.clearbit.com/${domain}`;
+const logo = (domain: string) => `https://unavatar.io/${domain}`;
 
 // ---- helpers to keep the curated rows compact ----
 let cSeq = 0;

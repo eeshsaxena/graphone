@@ -72,7 +72,7 @@ export class Db {
       founded_year: input.founded_year,
       hq_city: input.hq_city,
       hq_country: input.hq_country,
-      logo_url: input.logo_url ?? `https://logo.clearbit.com/${new URL(input.website).hostname}`,
+      logo_url: input.logo_url ?? `https://unavatar.io/${new URL(input.website).hostname}`,
       website: input.website,
       stage: input.stage as Company['stage'],
       is_unicorn: input.is_unicorn,
