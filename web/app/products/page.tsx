@@ -18,20 +18,22 @@ interface ProductRow {
   tags: string[];
   likes: number;
   comments: number;
+  /** days since launch — drives the "Newest" sort */
+  daysAgo: number;
   badge?: string;
 }
 
 const products: ProductRow[] = [
-  { name: 'Cursor', sub: 'The AI-first code editor built for speed and productivity.', domain: 'cursor.com', category: 'Code', tags: ['Code', 'Productivity'], likes: 8300, comments: 173, badge: 'Trending in Coding' },
-  { name: 'Claude', sub: 'AI assistant for thoughtful work and collaboration.', domain: 'anthropic.com', category: 'Chat', tags: ['Chat', 'Productivity'], likes: 6700, comments: 201, badge: 'Most used this week' },
-  { name: 'Midjourney', sub: 'AI image generation for creators and designers.', domain: 'midjourney.com', category: 'Image', tags: ['Image', 'Design'], likes: 5500, comments: 184, badge: 'Top rated in Image' },
-  { name: 'ChatGPT', sub: 'Conversational AI for the questions of everyone.', domain: 'openai.com', category: 'Chat', tags: ['Chat', 'Artificial Intelligence'], likes: 6900, comments: 341, badge: 'Most used this week' },
-  { name: 'Runway', sub: 'AI video creation platform for everyone.', domain: 'runwayml.com', category: 'Video', tags: ['Video', 'Creative'], likes: 3900, comments: 210, badge: 'Fastest growing' },
-  { name: 'ElevenLabs', sub: 'AI voice synthesis and audio tools.', domain: 'elevenlabs.io', category: 'Voice', tags: ['Voice', 'Audio'], likes: 5100, comments: 170, badge: 'Trending in Voice' },
-  { name: 'Perplexity', sub: 'AI search engine for real-time answers.', domain: 'perplexity.ai', category: 'Search', tags: ['Search', 'Productivity'], likes: 7500, comments: 144, badge: 'Most used this week' },
-  { name: 'Notion AI', sub: 'AI notes, docs and knowledge workspace.', domain: 'notion.so', category: 'Productivity', tags: ['Productivity', 'Writing'], likes: 7600, comments: 128 },
-  { name: 'Descript', sub: 'Edit audio and video like a doc.', domain: 'descript.com', category: 'Video', tags: ['Video', 'Audio'], likes: 3100, comments: 90 },
-  { name: 'Canva', sub: 'Design anything with AI, together.', domain: 'canva.com', category: 'Design', tags: ['Design', 'Productivity'], likes: 3900, comments: 85 },
+  { name: 'Cursor', sub: 'The AI-first code editor built for speed and productivity.', domain: 'cursor.com', category: 'Code', tags: ['Code', 'Productivity'], likes: 8300, comments: 173, daysAgo: 4, badge: 'Trending in Coding' },
+  { name: 'Claude', sub: 'AI assistant for thoughtful work and collaboration.', domain: 'anthropic.com', category: 'Chat', tags: ['Chat', 'Productivity'], likes: 6700, comments: 201, daysAgo: 3, badge: 'Most used this week' },
+  { name: 'Midjourney', sub: 'AI image generation for creators and designers.', domain: 'midjourney.com', category: 'Image', tags: ['Image', 'Design'], likes: 5500, comments: 184, daysAgo: 15, badge: 'Top rated in Image' },
+  { name: 'ChatGPT', sub: 'Conversational AI for the questions of everyone.', domain: 'openai.com', category: 'Chat', tags: ['Chat', 'Artificial Intelligence'], likes: 6900, comments: 341, daysAgo: 8, badge: 'Most used this week' },
+  { name: 'Runway', sub: 'AI video creation platform for everyone.', domain: 'runwayml.com', category: 'Video', tags: ['Video', 'Creative'], likes: 3900, comments: 210, daysAgo: 11, badge: 'Fastest growing' },
+  { name: 'ElevenLabs', sub: 'AI voice synthesis and audio tools.', domain: 'elevenlabs.io', category: 'Voice', tags: ['Voice', 'Audio'], likes: 5100, comments: 170, daysAgo: 7, badge: 'Trending in Voice' },
+  { name: 'Perplexity', sub: 'AI search engine for real-time answers.', domain: 'perplexity.ai', category: 'Search', tags: ['Search', 'Productivity'], likes: 7500, comments: 144, daysAgo: 9, badge: 'Most used this week' },
+  { name: 'Notion AI', sub: 'AI notes, docs and knowledge workspace.', domain: 'notion.so', category: 'Productivity', tags: ['Productivity', 'Writing'], likes: 7600, comments: 128, daysAgo: 18 },
+  { name: 'Descript', sub: 'Edit audio and video like a doc.', domain: 'descript.com', category: 'Video', tags: ['Video', 'Audio'], likes: 3100, comments: 90, daysAgo: 20 },
+  { name: 'Canva', sub: 'Design anything with AI, together.', domain: 'canva.com', category: 'Design', tags: ['Design', 'Productivity'], likes: 3900, comments: 85, daysAgo: 16 },
 ];
 
 const tabs = ['All', 'Chat', 'Code', 'Agents', 'Image', 'Video', 'Voice', 'Productivity'];
@@ -43,7 +45,7 @@ export default function ProductsPage() {
   const [sort, setSort] = useState<'popular' | 'newest'>('popular');
   const filtered = products
     .filter((p) => tab === 'All' || p.category === tab)
-    .sort((a, b) => (sort === 'popular' ? b.likes - a.likes : 0));
+    .sort((a, b) => (sort === 'popular' ? b.likes - a.likes : a.daysAgo - b.daysAgo));
 
   return (
     <div className="pb-10">
