@@ -5,7 +5,7 @@ import { Search, X } from 'lucide-react';
 import Image from '@/components/SmartImage';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { companies, investors } from '@/lib/data';
+import { companies, founders, investors } from '@/lib/data';
 
 interface Props {
   open: boolean;
@@ -33,9 +33,10 @@ export function CommandSearch({ open, onClose }: Props) {
 
   const results = useMemo(() => {
     const needle = q.trim().toLowerCase();
-    if (!needle) return { companies: companies.slice(0, 5), investors: investors.slice(0, 3) };
+    if (!needle) return { companies: companies.slice(0, 5), founders: [], investors: investors.slice(0, 3) };
     return {
       companies: companies.filter((c) => c.name.toLowerCase().includes(needle) || c.category.toLowerCase().includes(needle)).slice(0, 6),
+      founders: founders.filter((f) => f.name.toLowerCase().includes(needle) || f.companyName.toLowerCase().includes(needle)).slice(0, 4),
       investors: investors.filter((i) => i.name.toLowerCase().includes(needle)).slice(0, 4),
     };
   }, [q]);
@@ -96,6 +97,22 @@ export function CommandSearch({ open, onClose }: Props) {
                   </span>
                 </button>
               ))}
+              {results.founders.length > 0 && (
+                <p className="px-3 pb-1 pt-3 text-xs font-semibold uppercase tracking-wide text-ink-soft">Founders</p>
+              )}
+              {results.founders.map((f) => (
+                <button
+                  key={f.id}
+                  onClick={() => go(`/companies/${f.companySlug}`)}
+                  className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left hover:bg-subtle"
+                >
+                  <Image src={f.photo} alt="" width={28} height={28} className="h-7 w-7 rounded-full object-cover" />
+                  <span className="flex-1">
+                    <span className="block text-sm font-semibold">{f.name}</span>
+                    <span className="block text-xs text-muted">{f.title} · {f.companyName}</span>
+                  </span>
+                </button>
+              ))}
               {results.investors.length > 0 && (
                 <p className="px-3 pb-1 pt-3 text-xs font-semibold uppercase tracking-wide text-ink-soft">Investors</p>
               )}
@@ -110,7 +127,7 @@ export function CommandSearch({ open, onClose }: Props) {
                   <span className="text-xs text-muted">{i.type}</span>
                 </button>
               ))}
-              {results.companies.length === 0 && results.investors.length === 0 && (
+              {results.companies.length === 0 && results.founders.length === 0 && results.investors.length === 0 && (
                 <p className="px-3 py-6 text-center text-sm text-muted">No results for “{q}”.</p>
               )}
             </div>

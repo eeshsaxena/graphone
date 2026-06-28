@@ -1,7 +1,7 @@
 import { Search } from 'lucide-react';
 import Link from 'next/link';
 import Image from '@/components/SmartImage';
-import { categories, companies, investors } from '@/lib/data';
+import { categories, companies, founders, investors } from '@/lib/data';
 import { money } from '@/lib/format';
 
 export const metadata = { title: 'Search — GraphOne' };
@@ -15,9 +15,10 @@ export default function SearchPage({ searchParams }: { searchParams: { q?: strin
   const has = (s: string) => s.toLowerCase().includes(needle);
 
   const companyHits = q ? companies.filter((c) => has(c.name) || has(c.category) || has(c.description)) : [];
+  const founderHits = q ? founders.filter((f) => has(f.name) || has(f.title) || has(f.companyName)) : [];
   const investorHits = q ? investors.filter((i) => has(i.name) || has(i.tagline) || i.sector_focus.some(has)) : [];
   const categoryHits = q ? categories.filter((c) => has(c.name)) : [];
-  const total = companyHits.length + investorHits.length + categoryHits.length;
+  const total = companyHits.length + founderHits.length + investorHits.length + categoryHits.length;
 
   return (
     <div className="page min-h-[60vh] pb-16 pt-10">
@@ -60,6 +61,23 @@ export default function SearchPage({ searchParams }: { searchParams: { q?: strin
                   <p className="text-xs text-muted">{c.category} · {c.stage}</p>
                 </div>
                 {c.valuation > 0 && <span className="text-xs font-semibold text-accent">{money(c.valuation)}</span>}
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {founderHits.length > 0 && (
+        <section className="mt-8">
+          <h2 className="mb-3 text-sm font-bold uppercase tracking-wide text-ink-soft">Founders · {founderHits.length}</h2>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {founderHits.map((f) => (
+              <Link key={f.id} href={`/companies/${f.companySlug}`} className="card flex items-center gap-3 p-4 transition hover:shadow-hover">
+                <Image src={f.photo} name={f.name} width={40} height={40} className="h-10 w-10 rounded-full object-cover" />
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-sm font-semibold">{f.name}</p>
+                  <p className="truncate text-xs text-muted">{f.title} · {f.companyName}</p>
+                </div>
               </Link>
             ))}
           </div>

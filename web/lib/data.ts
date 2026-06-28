@@ -53,6 +53,32 @@ export const categories: Category[] = [
 ];
 
 // ---------------------------------------------------------------------------
+// Founders (for cross-entity search — companies, founders, investors)
+// ---------------------------------------------------------------------------
+export interface Founder {
+  id: string;
+  name: string;
+  slug: string;
+  title: string;
+  companySlug: string;
+  companyName: string;
+  photo: string;
+}
+const face = (u: string) => `https://i.pravatar.cc/120?u=${u}`;
+export const founders: Founder[] = [
+  { id: 'f1', name: 'Sam Altman', slug: 'sam-altman', title: 'CEO', companySlug: 'openai', companyName: 'OpenAI', photo: face('sam-altman') },
+  { id: 'f2', name: 'Greg Brockman', slug: 'greg-brockman', title: 'President & Co-founder', companySlug: 'openai', companyName: 'OpenAI', photo: face('greg-brockman') },
+  { id: 'f3', name: 'Dario Amodei', slug: 'dario-amodei', title: 'CEO & Co-founder', companySlug: 'anthropic', companyName: 'Anthropic', photo: face('dario-amodei') },
+  { id: 'f4', name: 'Aravind Srinivas', slug: 'aravind-srinivas', title: 'CEO & Co-founder', companySlug: 'perplexity', companyName: 'Perplexity', photo: face('aravind-srinivas') },
+  { id: 'f5', name: 'Arthur Mensch', slug: 'arthur-mensch', title: 'CEO & Co-founder', companySlug: 'mistral-ai', companyName: 'Mistral AI', photo: face('arthur-mensch') },
+  { id: 'f6', name: 'Aidan Gomez', slug: 'aidan-gomez', title: 'CEO & Co-founder', companySlug: 'cohere', companyName: 'Cohere', photo: face('aidan-gomez') },
+  { id: 'f7', name: 'Mati Staniszewski', slug: 'mati-staniszewski', title: 'CEO & Co-founder', companySlug: 'elevenlabs', companyName: 'ElevenLabs', photo: face('mati-staniszewski') },
+  { id: 'f8', name: 'Scott Wu', slug: 'scott-wu', title: 'CEO & Co-founder', companySlug: 'cognition', companyName: 'Cognition', photo: face('scott-wu') },
+  { id: 'f9', name: 'Winston Weinberg', slug: 'winston-weinberg', title: 'CEO & Co-founder', companySlug: 'harvey', companyName: 'Harvey', photo: face('winston-weinberg') },
+  { id: 'f10', name: 'Clem Delangue', slug: 'clem-delangue', title: 'CEO & Co-founder', companySlug: 'hugging-face', companyName: 'Hugging Face', photo: face('clem-delangue') },
+];
+
+// ---------------------------------------------------------------------------
 // Investors
 // ---------------------------------------------------------------------------
 export const investors: Investor[] = [

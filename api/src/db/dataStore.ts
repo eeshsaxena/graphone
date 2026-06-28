@@ -284,8 +284,10 @@ export class DataStore {
   getFounderBySlug(slug: string) {
     const f = this.s.founders.find((x) => x.slug === slug);
     if (!f) return null;
-    const company = this.s.companies.find((c) => c.id === f.company_id) ?? null;
-    return { ...f, company };
+    // a founder can be linked to multiple companies (serial founders); the spec
+    // asks for "linked companies" (plural), so return an array.
+    const companies = this.s.companies.filter((c) => c.id === f.company_id);
+    return { ...f, companies, company: companies[0] ?? null };
   }
 
   // ---- search -----------------------------------------------------------
